@@ -16,11 +16,19 @@ placeholder = st.empty()
 map_col, menu_col = placeholder.columns([4, 1])
 
 with menu_col:
+    # カスタムCSSを追加してラベルの折り返しを防ぐ
+    st.markdown("""
+    <style>
+    .stNumberInput > label {
+        white-space: nowrap;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     st.header("閾値設定")
     division = st.number_input(
         label='分割数',
         value=9,
-        min_value=0,
+        min_value=4,
         max_value=100,
         key="division"
     )
