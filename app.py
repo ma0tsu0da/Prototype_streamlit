@@ -17,9 +17,9 @@ map_col, menu_col = placeholder.columns([4, 1])
 
 with menu_col:
     st.header("閾値設定")
-    division = st.date_input(
-        '分割数',
-        9,
+    division = st.number_input(
+        label='分割数',
+        value=9,
         min_value=0,
         max_value=100,
         key="division"
