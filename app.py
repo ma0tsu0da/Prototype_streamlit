@@ -19,11 +19,12 @@ with menu_col:
     # カスタムCSSを追加してラベルの折り返しを防ぐ
     st.markdown("""
     <style>
-    .stNumberInput > label {
+    .stMarkdown h2 {
         white-space: nowrap;
     }
     </style>
     """, unsafe_allow_html=True)
+
     st.header("閾値設定")
     division = st.number_input(
         label='分割数',
