@@ -13,7 +13,7 @@ fukuoka = json.load(f)
 f.close()
 
 placeholder = st.empty()
-map_col, menu_col = placeholder.columns([4, 1])
+map_col, menu_col = placeholder.columns([5, 2])
 
 with menu_col:
     # カスタムCSSを追加してラベルの折り返しを防ぐ
