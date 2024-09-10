@@ -102,7 +102,7 @@ with menu_col:
             threshold = df_map[num_student].max()
         else:
             threshold = st.number_input(
-                f"閾値_{i}", min_value=0, max_value=1000, value=i)
+                f"閾値_{i}", min_value=0, max_value=1000, value=i * 50)
         thresholds.append(threshold)
 
     # Thresholdリストを表示
