@@ -25,7 +25,7 @@ def add_choropleth(my_map, df_map: pd.DataFrame, col_name: str, fill_color: str,
     ).add_to(my_map)
 
 
-df_map = pd.read_csv('/home/kou81/Prototype_streamlit/public_tokyo23_.csv')
+df_map = pd.read_csv('/home/kou81/Prototype_streamlit/public_tokyo23.csv')
 df_map['geometry'] = df_map['geometry'].apply(wkt.loads)
 df_map = gpd.GeoDataFrame(df_map, geometry='geometry')
 df_map = df_map.set_crs(epsg=4612, inplace=True)
