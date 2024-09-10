@@ -27,6 +27,7 @@ def add_choropleth(df_map: pd.DataFrame, col_name: str, fill_color: str, bins: l
 df_map = pd.read_csv('public_tokyo23.csv')
 num_student = "高校生数"
 ave_age = "平均年齢"
+df_map[num_student] = pd.to_numeric(df_map[num_student], errors='coerce')
 
 placeholder = st.empty()
 map_col, menu_col = placeholder.columns([5, 2])
@@ -58,7 +59,7 @@ with menu_col:
             threshold = df_map[num_student].max()
         else:
             threshold = st.number_input(
-                f"Threshold {i}", min_value=0, max_value=1000, value=i)
+                f"閾値_{i}", min_value=0, max_value=1000, value=i)
         thresholds.append(threshold)
 
     # Thresholdリストを表示
