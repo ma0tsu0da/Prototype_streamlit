@@ -7,7 +7,7 @@ import streamlit as st
 from streamlit_folium import st_folium
 
 
-def add_choropleth(df_map: pd.DataFrame, col_name: str, fill_color: str, bins: list[float]):
+def add_choropleth(my_map, df_map: pd.DataFrame, col_name: str, fill_color: str, bins: list[float]):
     folium.Choropleth(
         geo_data=df_map,
         data=df_map,  # GeoPandasデータフレームをそのまま使用
@@ -34,7 +34,7 @@ def arrange() -> pd.DataFrame:
         df_shape.append(df)
 
     df_shape = pd.concat(df_shape)
-    # HS生シェア率データ読み込み
+    # シェア率データ読み込み
     df_share = []
     for key, value in PREF_DICT.items():
         df = pd.read_excel("./シェア率.xlsx", sheet_name=value[1], dtype={0: str, 1: str, 2: str, 3: str})
@@ -113,8 +113,8 @@ with map_col:
     my_map = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
     df_map_tmp = df_map[(df_map["PREF"] == "13") & (df_map["CITY_NAME"].str.contains("区"))]  # 東京23区
 
-    add_choropleth(my_map, num_student, "BuGn", thresholds)
-    add_choropleth(my_map, ave_age, "RdPu", [0, 30, 35, 40, 45, 50, 55, 70])
+    add_choropleth(my_map, df_map, num_student, "BuGn", thresholds)
+    add_choropleth(my_map, df_map, ave_age, "RdPu", [0, 30, 35, 40, 45, 50, 55, 70])
     folium.GeoJson(
         df_map,
         style_function=lambda x: {'fillColor': '#ffffff00', 'color': '#ffffff00'},
