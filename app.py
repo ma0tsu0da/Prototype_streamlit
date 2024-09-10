@@ -89,7 +89,7 @@ with menu_col:
     division = st.number_input(
         label='分割数',
         value=9,
-        min_value=2,
+        min_value=4,
         max_value=100,
         key="division"
     )
@@ -108,8 +108,8 @@ with menu_col:
     # Thresholdリストを表示
     st.write("閾値一覧:", thresholds)
 
-with map_col:
-    if st.button("マップ生成"):
+if st.button("マップ生成"):
+    with map_col:
         map_center = [35.686086, 139.760256]  # 千代田区
         my_map = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
         df_map_tmp = df_map[(df_map["PREF"] == "13") & (df_map["CITY_NAME"].str.contains("区"))]  # 東京23区
