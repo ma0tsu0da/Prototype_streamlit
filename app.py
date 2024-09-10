@@ -1,8 +1,8 @@
 import folium
 from folium.features import GeoJsonTooltip
 import pandas as pd
-import numpy as np
 import geopandas as gpd
+from shapely import wkt
 import streamlit as st
 from streamlit_folium import st_folium
 
@@ -25,46 +25,11 @@ def add_choropleth(my_map, df_map: pd.DataFrame, col_name: str, fill_color: str,
     ).add_to(my_map)
 
 
-def arrange() -> pd.DataFrame:
-    PREF_DICT = {11: ["saitama", "埼玉県"], 12: ["chiba", "千葉県"], 13: ["tokyo", "東京都"], 14: ["kanagawa", "神奈川県"]}
-    # シェープファイル読み込み
-    df_shape = []
-    for key, value in PREF_DICT.items():
-        df = gpd.read_file(f"./shape/{key}_{value[0]}/r2ka{key}.shx")
-        df_shape.append(df)
+df_map = pd.read_csv('/home/kou81/Prototype_streamlit/public_tokyo23_.csv')
+df_map['geometry'] = df_map['geometry'].apply(wkt.loads)
+df_map = gpd.GeoDataFrame(df_map, geometry='geometry')
+df_map = df_map.set_crs(epsg=4612, inplace=True)
 
-    df_shape = pd.concat(df_shape)
-    # シェア率データ読み込み
-    df_share = []
-    for key, value in PREF_DICT.items():
-        df = pd.read_excel("./シェア率.xlsx", sheet_name=value[1], dtype={0: str, 1: str, 2: str, 3: str})
-        df_share.append(df)
-
-    df_share = pd.concat(df_share)
-    df_shape["MY_CODE"] = df_shape["PREF"] + df_shape["CITY"] + df_shape["S_AREA"]
-    df_shape["S_NAME"] = df_shape["S_NAME"].fillna("")
-    df_shape["NAME"] = df_shape["PREF_NAME"] + df_shape["CITY_NAME"] + df_shape["S_NAME"]
-
-    df_share["大字・町名"] = df_share["大字・町名"].fillna("")
-    df_share["字・丁目名"] = df_share["字・丁目名"].fillna("")
-    df_share["NAME"] = df_share['都道府県名'] + df_share['市区町村名'] + df_share['大字・町名'] + df_share['字・丁目名']
-
-    # df_map = pd.merge(df_shape, df_share, on="MY_CODE", how="left")
-    df_map = pd.merge(df_shape, df_share, on="NAME", how="left")
-    df_map["S_NAME"] = df_map["S_NAME"].fillna("")
-    # df_map["NAME"] = df_map["PREF_NAME"] + df_map["CITY_NAME"] + df_map["S_NAME"]
-
-    parent_list = df_map.loc[~(df_map["S_NAME"].isnull()), "CITY_NAME"].unique()
-    df_map.loc[(df_map["CITY_NAME"].isin(parent_list)) & (df_map["S_NAME"] == ""), "高校生数"] = np.nan
-    df_map.loc[(df_map["CITY_NAME"].isin(parent_list)) & (df_map["S_NAME"] == ""), "HS生徒数"] = 0
-    df_map.loc[(df_map["CITY_NAME"].isin(parent_list)) & (df_map["S_NAME"] == ""), "HSシェア率"] = np.nan
-
-    df_map = df_map[~df_map["NAME"].isnull()]
-    df_map = df_map[(df_map["PREF"] == "13") & (df_map["CITY_NAME"].str.contains("区"))]
-    return df_map
-
-
-df_map = arrange()
 map_center = [35.686086, 139.760256]  # 千代田区
 my_map = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
 
@@ -102,7 +67,7 @@ with menu_col:
             threshold = df_map[num_student].max()
         else:
             threshold = st.number_input(
-                f"閾値_{i}", min_value=0, max_value=1000, value=i * 50)
+                f"閾値_{i}", min_value=0, max_value=1000, value=i * 25)
         thresholds.append(threshold)
 
     # Thresholdリストを表示
