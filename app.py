@@ -106,10 +106,11 @@ with menu_col:
         thresholds.append(threshold)
 
     # Thresholdリストを表示
-    st.write("閾値一覧:", thresholds)
+    st.write("最小値:", df_map[num_student].min())
+    st.write("最大値:", df_map[num_student].max())
 
-if st.button("マップ生成"):
-    with map_col:
+with map_col:
+    if st.button("マップ生成"):
         map_center = [35.686086, 139.760256]  # 千代田区
         my_map = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
         df_map_tmp = df_map[(df_map["PREF"] == "13") & (df_map["CITY_NAME"].str.contains("区"))]  # 東京23区
