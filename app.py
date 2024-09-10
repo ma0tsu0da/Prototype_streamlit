@@ -85,7 +85,7 @@ with menu_col:
     </style>
     """, unsafe_allow_html=True)
 
-    st.header("分割数設定")
+    st.header("分割設定")
     division = st.number_input(
         label='分割数',
         value=9,
@@ -109,27 +109,28 @@ with menu_col:
     st.write("閾値一覧:", thresholds)
 
 with map_col:
-    map_center = [35.686086, 139.760256]  # 千代田区
-    my_map = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
-    df_map_tmp = df_map[(df_map["PREF"] == "13") & (df_map["CITY_NAME"].str.contains("区"))]  # 東京23区
+    if st.button("マップ生成"):
+        map_center = [35.686086, 139.760256]  # 千代田区
+        my_map = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
+        df_map_tmp = df_map[(df_map["PREF"] == "13") & (df_map["CITY_NAME"].str.contains("区"))]  # 東京23区
 
-    add_choropleth(my_map, df_map, num_student, "BuGn", thresholds)
-    add_choropleth(my_map, df_map, ave_age, "RdPu", [0, 30, 35, 40, 45, 50, 55, 70])
-    folium.GeoJson(
-        df_map,
-        style_function=lambda x: {'fillColor': '#ffffff00', 'color': '#ffffff00'},
-        tooltip=GeoJsonTooltip(
-            fields=["NAME", "高校生数", "平均年齢"],  # ツールチップに表示するフィールド名
-            aliases=["地域名: ", "高校生数: ", "平均年齢: ",],  # フィールド名の別名
-            localize=True,  # データをローカライズするか（数値フォーマットなど）
-            sticky=False,  # マウスが動いてもツールチップを表示し続けるか
-            labels=True,  # ラベルを表示するか
-            style=("background-color: white; color: black; font-weight: bold; padding: 5px; z-index: 1000")
-        ),
-        name="tooltip",
-        show=True
-    ).add_to(my_map)
+        add_choropleth(my_map, df_map, num_student, "BuGn", thresholds)
+        add_choropleth(my_map, df_map, ave_age, "RdPu", [0, 30, 35, 40, 45, 50, 55, 70])
+        folium.GeoJson(
+            df_map,
+            style_function=lambda x: {'fillColor': '#ffffff00', 'color': '#ffffff00'},
+            tooltip=GeoJsonTooltip(
+                fields=["NAME", "高校生数", "平均年齢"],  # ツールチップに表示するフィールド名
+                aliases=["地域名: ", "高校生数: ", "平均年齢: ",],  # フィールド名の別名
+                localize=True,  # データをローカライズするか（数値フォーマットなど）
+                sticky=False,  # マウスが動いてもツールチップを表示し続けるか
+                labels=True,  # ラベルを表示するか
+                style=("background-color: white; color: black; font-weight: bold; padding: 5px; z-index: 1000")
+            ),
+            name="tooltip",
+            show=True
+        ).add_to(my_map)
 
-    folium.LayerControl().add_to(my_map)
+        folium.LayerControl().add_to(my_map)
 
-    st_folium(my_map, use_container_width=True, height=720, returned_objects=[])
+        st_folium(my_map, use_container_width=True, height=720, returned_objects=[])
