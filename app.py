@@ -6,6 +6,7 @@ import geopandas as gpd
 from shapely import wkt
 import streamlit as st
 from streamlit_folium import st_folium
+from branca.element import Figure
 
 
 st.set_page_config(
@@ -42,6 +43,7 @@ def add_choropleth(my_map, df_map: pd.DataFrame, col_name: str, fill_color: str,
 
 
 def create_map(my_map: folium.Map, df_map: pd.DataFrame, col_name: str, fill_color: str, bins: list[float]):
+    fig = Figure(width=600, height=400)
     add_choropleth(my_map, df_map, col_name, fill_color, bins)
     folium.GeoJson(
         df_map,
@@ -58,6 +60,7 @@ def create_map(my_map: folium.Map, df_map: pd.DataFrame, col_name: str, fill_col
         show=True
     ).add_to(my_map)
     folium.LayerControl().add_to(my_map)
+    fig.add_child(my_map)
 
 
 df_map = pd.read_csv('./public_tokyo23.csv')
