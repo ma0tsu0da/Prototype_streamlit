@@ -57,9 +57,9 @@ with menu_col:
     thresholds_1 = []
     for i in range(st.session_state["division_1"]):
         if i == 0:
-            threshold_1 = np.floor(df_map["高校生数"].min())
+            threshold_1 = int(np.floor(df_map["高校生数"].min()))
         elif i == st.session_state["division_1"] - 1:
-            threshold_1 = np.ceil(df_map["高校生数"].max())
+            threshold_1 = int(np.ceil(df_map["高校生数"].max()))
         else:
             threshold_1 = st.number_input(
                 f"閾値_{i}", min_value=0, max_value=1000, value=i * 25)
@@ -81,9 +81,9 @@ with menu_col:
     thresholds_2 = []
     for i in range(st.session_state["division_2"]):
         if i == 0:
-            threshold_2 = np.floor(df_map["平均年齢"].min())
+            threshold_2 = int(np.floor(df_map["平均年齢"].min()))
         elif i == st.session_state["division_2"] - 1:
-            threshold_2 = np.ceil(df_map["平均年齢"].max())
+            threshold_2 = int(np.ceil(df_map["平均年齢"].max()))
         else:
             threshold_2 = st.number_input(
                 f"閾値_{i}", min_value=0, max_value=100, value=15 + i * 7)
