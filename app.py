@@ -100,3 +100,4 @@ with map_col:
         folium.LayerControl().add_to(my_map)
 
         st_folium(my_map, use_container_width=True, height=720, returned_objects=[])
+        st_folium(my_map, use_container_width=True, height=720, returned_objects=[])
