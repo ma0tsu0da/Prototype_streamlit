@@ -140,7 +140,7 @@ with st.container():
             st.write("マップ1")
             my_map_1 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
             create_map(my_map_1, df_map, "高校生数", "BuGn", thresholds_1)
-            st_folium(my_map_1, use_container_width=True, height=500, returned_objects=[])
+            st_folium(my_map_1, use_container_width=True, width=500, returned_objects=[])
 
 
 with st.container():
@@ -192,4 +192,4 @@ with st.container():
             st.write("マップ2")
             my_map_2 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
             create_map(my_map_2, df_map, "平均年齢", "RdPu", thresholds_2)
-            st_folium(my_map_2, use_container_width=True, height=500, returned_objects=[])
+            st_folium(my_map_2, use_container_width=True, width=500, returned_objects=[])
