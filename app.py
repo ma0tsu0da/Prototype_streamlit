@@ -90,30 +90,6 @@ with menu_col_1:
     st.write("最小値:", df_map["高校生数"].min())
     st.write("最大値:", df_map["高校生数"].max())
 
-    st.header("マップ2 分割設定")
-    division = st.number_input(
-        label='分割数',
-        value=9,
-        min_value=4,
-        max_value=100,
-        key="division_2"
-    )
-    st.header("マップ2 閾値設定")
-    thresholds_2 = []
-    for i in range(st.session_state["division_2"]):
-        if i == 0:
-            threshold_2 = int(np.floor(df_map["平均年齢"].min()))
-        elif i == st.session_state["division_2"] - 1:
-            threshold_2 = int(np.ceil(df_map["平均年齢"].max()))
-        else:
-            threshold_2 = st.number_input(
-                f"閾値_{i}", min_value=0, max_value=100, value=15 + i * 7)
-        thresholds_2.append(threshold_2)
-
-    # Thresholdリストを表示
-    st.write("最小値:", df_map["平均年齢"].min())
-    st.write("最大値:", df_map["平均年齢"].max())
-
 with menu_col_2:
     # カスタムCSSを追加してラベルの折り返しを防ぐ
     st.markdown("""
