@@ -112,7 +112,9 @@ with map_col:
 
     if st.session_state['show_map1']:
         my_map_1 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
+        create_map(my_map_1)
         st_folium(my_map_1, use_container_width=True, height=720, returned_objects=[])
     if st.session_state['show_map2']:
         my_map_2 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
+        create_map(my_map_2)
         st_folium(my_map_2, use_container_width=True, height=720, returned_objects=[])
