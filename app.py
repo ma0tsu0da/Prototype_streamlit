@@ -44,7 +44,7 @@ with menu_col:
     </style>
     """, unsafe_allow_html=True)
 
-    st.header("マップ1 分割設定")
+    st.header("マップ1\n 分割設定")
     division = st.number_input(
         label='分割数',
         value=9,
@@ -52,7 +52,7 @@ with menu_col:
         max_value=100,
         key="division_1"
     )
-    st.header("マップ1 閾値設定")
+    st.header("マップ1\n 閾値設定")
     thresholds_1 = []
     for i in range(st.session_state["division_1"]):
         if i == 0:
@@ -68,7 +68,7 @@ with menu_col:
     st.write("最小値:", df_map["高校生数"].min())
     st.write("最大値:", df_map["高校生数"].max())
 
-    st.header("マップ2 分割設定")
+    st.header("マップ2\n 分割設定")
     division = st.number_input(
         label='分割数',
         value=9,
@@ -76,8 +76,8 @@ with menu_col:
         max_value=100,
         key="division_2"
     )
-    st.header("マップ2 閾値設定")
-    threshold_2 = []
+    st.header("マップ2\n 閾値設定")
+    thresholds_2 = []
     for i in range(st.session_state["division_2"]):
         if i == 0:
             threshold_2 = df_map["平均年齢"].min()
@@ -86,7 +86,7 @@ with menu_col:
         else:
             threshold_2 = st.number_input(
                 f"閾値_{i}", min_value=0, max_value=1000, value=i * 7)
-        threshold_2.append(threshold_2)
+        thresholds_2.append(threshold_2)
 
     # Thresholdリストを表示
     st.write("最小値:", df_map["平均年齢"].min())
