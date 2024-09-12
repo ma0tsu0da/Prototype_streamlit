@@ -30,9 +30,6 @@ df_map['geometry'] = df_map['geometry'].apply(wkt.loads)
 df_map = gpd.GeoDataFrame(df_map, geometry='geometry')
 df_map = df_map.set_crs(epsg=4612, inplace=True)
 
-map_center = [35.686086, 139.760256]  # 千代田区
-my_map = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
-
 
 placeholder = st.empty()
 map_col, menu_col = placeholder.columns([5, 2])
@@ -80,16 +77,16 @@ with menu_col:
         key="division_2"
     )
     st.header("マップ2 閾値設定")
-    thresholds = []
+    threshold_2 = []
     for i in range(st.session_state["division_2"]):
         if i == 0:
-            threshold = df_map["平均年齢"].min()
+            threshold_2 = df_map["平均年齢"].min()
         elif i == st.session_state["division_2"] - 1:
-            threshold = df_map["平均年齢"].max()
+            threshold_2 = df_map["平均年齢"].max()
         else:
-            threshold = st.number_input(
-                f"閾値_{i}", min_value=0, max_value=1000, value=i * 10)
-        thresholds.append(threshold)
+            threshold_2 = st.number_input(
+                f"閾値_{i}", min_value=0, max_value=1000, value=i * 7)
+        threshold_2.append(threshold_2)
 
     # Thresholdリストを表示
     st.write("最小値:", df_map["平均年齢"].min())
@@ -153,9 +150,9 @@ with map_col:
 
     if st.session_state['show_map1']:
         my_map_1 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
-        create_map(my_map_1, df_map, "高校生数", "BuGn", thresholds)
+        create_map(my_map_1, df_map, "高校生数", "BuGn", threshold_1)
         st_folium(my_map_1, use_container_width=True, width=1200, height=720, returned_objects=[])
     if st.session_state['show_map2']:
         my_map_2 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
-        create_map(my_map_2, df_map, "平均年齢", "RdPu", thresholds)
+        create_map(my_map_2, df_map, "平均年齢", "RdPu", threshold_2)
         st_folium(my_map_2, use_container_width=True, width=1200, height=720, returned_objects=[])
