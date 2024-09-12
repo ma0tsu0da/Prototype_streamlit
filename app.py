@@ -157,7 +157,7 @@ with st.container():
             target = df_map[df_map['CITY_NAME'] == filter_value]
         target.rename({'S_NAME': '丁名'}, axis=1, inplace=True)
         target = target[target['丁名'] != '‐']
-        target = target.dropna(subset=['高校生数', '丁名'], inplace=True)
+        target = target.dropna(subset=['高校生数', '丁名'])
         target = target[['丁名', '平均年齢'
                          ]].sort_values('高校生数', ascending=False).reset_index(drop=True)
         st.write(f"{filter_value}の丁別高校生数")
@@ -227,7 +227,7 @@ with st.container():
             target = df_map[df_map['CITY_NAME'] == filter_value]
         target.rename({'S_NAME': '丁名'}, axis=1, inplace=True)
         target = target[target['丁名'] != '‐']
-        target = target.dropna(subset=['平均年齢', '丁名'], inplace=True)
+        target = target.dropna(subset=['平均年齢', '丁名'])
         target = target[['丁名', '平均年齢'
                          ]].sort_values('平均年齢', ascending=True
                                         ).reset_index(drop=True)
