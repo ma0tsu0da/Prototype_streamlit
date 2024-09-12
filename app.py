@@ -158,10 +158,8 @@ with st.container():
         target.rename({'S_NAME': '丁名'}, axis=1, inplace=True)
         target = target[target['丁名'] != '‐']
         target = target.dropna(subset=['高校生数', '丁名'], inplace=True)
-        target = target[['丁名', '高校生数'
-                         ]].dropna(subset='高校生数'
-                                   ).sort_values('高校生数', ascending=False
-                                                 ).reset_index(drop=True)
+        target = target[['丁名', '平均年齢'
+                         ]].sort_values('高校生数', ascending=False).reset_index(drop=True)
         st.write(f"{filter_value}の丁別高校生数")
         st.dataframe(target, use_container_width=True)
 
@@ -231,9 +229,8 @@ with st.container():
         target = target[target['丁名'] != '‐']
         target = target.dropna(subset=['平均年齢', '丁名'], inplace=True)
         target = target[['丁名', '平均年齢'
-                         ]].dropna(subset='平均年齢'
-                                   ).sort_values('平均年齢', ascending=True
-                                                 ).reset_index(drop=True)
+                         ]].sort_values('平均年齢', ascending=True
+                                        ).reset_index(drop=True)
 
         st.write(f"{filter_value}の丁別平均年齢")
         st.dataframe(target, use_container_width=True)
