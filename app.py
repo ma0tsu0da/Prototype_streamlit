@@ -140,11 +140,28 @@ with st.container():
             st.session_state['show_map1'] = not st.session_state['show_map1']
 
         if st.session_state['show_map1'] & st.session_state["division_1"]:
-            st.write("マップ1")
+            st.write("高校生数マッピング")
             my_map_1 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
             create_map(my_map_1, df_map, "高校生数", "BuGn", thresholds_1)
             st_folium(my_map_1, use_container_width=True, width=500, returned_objects=[])
 
+with st.container():
+    map_col_3, menu_col_3 = st.columns([5, 2])
+    with menu_col_3:
+        filter_value = st.selectbox('フィルタリングする要素の選択',
+                                    ['すべて'] + list(df_map['CITY_NAME'].unique()), key='filter_1')
+    with map_col_3:
+        if filter_value == 'すべて':
+            target = df_map.copy()
+        else:
+            target = df_map[df_map['CITY_NAME'] == filter_value]
+        target.rename({'S_NAME': '丁名'}, axis=1, inplace=True)
+        target = target[['丁名', '高校生数'
+                         ]].dropna(subset='高校生数'
+                                   ).sort_values('高校生数', ascending=False
+                                                 ).reset_index(drop=True)
+        st.dataframe(target, use_container_width=True)
+        st.write(f"{filter_value}の丁別高校生数")
 
 with st.container():
     map_col_2, menu_col_2 = st.columns([5, 2])
@@ -192,29 +209,10 @@ with st.container():
             st.session_state['show_map2'] = not st.session_state['show_map2']
 
         if st.session_state['show_map2'] & st.session_state["division_2"]:
-            st.write("マップ2")
+            st.write("平均年齢マッピング")
             my_map_2 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
             create_map(my_map_2, df_map, "平均年齢", "RdPu", thresholds_2)
             st_folium(my_map_2, use_container_width=True, width=500, returned_objects=[])
-
-
-with st.container():
-    map_col_3, menu_col_3 = st.columns([5, 2])
-    with menu_col_3:
-        filter_value = st.selectbox('フィルタリングする要素の選択',
-                                    ['すべて'] + list(df_map['CITY_NAME'].unique()), key='filter_1')
-    with map_col_3:
-        if filter_value == 'すべて':
-            target = df_map.copy()
-        else:
-            target = df_map[df_map['CITY_NAME'] == filter_value]
-        target.rename({'S_NAME': '丁名'}, axis=1, inplace=True)
-        target = target[['丁名', '高校生数'
-                         ]].dropna(subset='高校生数'
-                                   ).sort_values('高校生数', ascending=False
-                                                 ).reset_index(drop=True)
-        st.dataframe(target, use_container_width=True)
-        st.write(f"{filter_value}の丁別高校生数")
 
 
 with st.container():
