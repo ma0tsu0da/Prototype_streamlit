@@ -34,9 +34,6 @@ map_center = [35.686086, 139.760256]  # 千代田区
 my_map = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
 
 
-num_student = "高校生数"
-ave_age = "平均年齢"
-
 placeholder = st.empty()
 map_col, menu_col = placeholder.columns([5, 2])
 
@@ -50,29 +47,53 @@ with menu_col:
     </style>
     """, unsafe_allow_html=True)
 
-    st.header("分割設定")
+    st.header("マップ1 分割設定")
     division = st.number_input(
         label='分割数',
         value=9,
         min_value=4,
         max_value=100,
-        key="division"
+        key="division_1"
     )
-    st.header("閾値設定")
-    thresholds = []
-    for i in range(st.session_state["division"]):
+    st.header("マップ1 閾値設定")
+    thresholds_1 = []
+    for i in range(st.session_state["division_1"]):
         if i == 0:
-            threshold = df_map[num_student].min()
-        elif i == st.session_state["division"] - 1:
-            threshold = df_map[num_student].max()
+            threshold_1 = df_map["高校生数"].min()
+        elif i == st.session_state["division_1"] - 1:
+            threshold_1 = df_map["高校生数"].max()
+        else:
+            threshold_1 = st.number_input(
+                f"閾値_{i}", min_value=0, max_value=1000, value=i * 25)
+        thresholds_1.append(threshold_1)
+
+    # Thresholdリストを表示
+    st.write("最小値:", df_map["高校生数"].min())
+    st.write("最大値:", df_map["高校生数"].max())
+
+    st.header("マップ2 分割設定")
+    division = st.number_input(
+        label='分割数',
+        value=9,
+        min_value=4,
+        max_value=100,
+        key="division_2"
+    )
+    st.header("マップ2 閾値設定")
+    thresholds = []
+    for i in range(st.session_state["division_2"]):
+        if i == 0:
+            threshold = df_map["平均年齢"].min()
+        elif i == st.session_state["division_2"] - 1:
+            threshold = df_map["平均年齢"].max()
         else:
             threshold = st.number_input(
-                f"閾値_{i}", min_value=0, max_value=1000, value=i * 25)
+                f"閾値_{i}", min_value=0, max_value=1000, value=i * 10)
         thresholds.append(threshold)
 
     # Thresholdリストを表示
-    st.write("最小値:", df_map[num_student].min())
-    st.write("最大値:", df_map[num_student].max())
+    st.write("最小値:", df_map["平均年齢"].min())
+    st.write("最大値:", df_map["平均年齢"].max())
 
 with map_col:
     map_center = [35.686086, 139.760256]  # 千代田区
@@ -123,16 +144,18 @@ with map_col:
     # ボタン1が押された場合
     if st.button("マップ1生成", key="button_1"):
         st.session_state['show_map1'] = not st.session_state['show_map1']
+        st.write("マップ1")
 
     # ボタン2が押された場合
     if st.button("マップ2生成", key="button_2"):
         st.session_state['show_map2'] = not st.session_state['show_map2']
+        st.write("マップ2")
 
     if st.session_state['show_map1']:
         my_map_1 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
         create_map(my_map_1, df_map, "高校生数", "BuGn", thresholds)
-        st_folium(my_map_1, use_container_width=True, height=720, returned_objects=[])
+        st_folium(my_map_1, use_container_width=True, width=1200, height=720, returned_objects=[])
     if st.session_state['show_map2']:
         my_map_2 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
         create_map(my_map_2, df_map, "平均年齢", "RdPu", thresholds)
-        st_folium(my_map_2, use_container_width=True, height=720, returned_objects=[])
+        st_folium(my_map_2, use_container_width=True, width=1200, height=720, returned_objects=[])
