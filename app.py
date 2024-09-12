@@ -158,7 +158,7 @@ with st.container():
         target.rename({'S_NAME': '丁名'}, axis=1, inplace=True)
         target = target[target['丁名'] != '‐']
         target = target.dropna(subset=['高校生数', '丁名'])
-        target = target[['丁名', '平均年齢'
+        target = target[['丁名', '高校生数'
                          ]].sort_values('高校生数', ascending=False).reset_index(drop=True)
         st.write(f"{filter_value}の丁別高校生数")
         st.dataframe(target, use_container_width=True)
