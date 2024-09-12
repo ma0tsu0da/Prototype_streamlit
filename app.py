@@ -142,18 +142,18 @@ with map_col:
     # ボタン1が押された場合
     if st.button("マップ1生成", key="button_1"):
         st.session_state['show_map1'] = not st.session_state['show_map1']
-        st.write("マップ1")
 
     # ボタン2が押された場合
     if st.button("マップ2生成", key="button_2"):
         st.session_state['show_map2'] = not st.session_state['show_map2']
-        st.write("マップ2")
 
-    if st.session_state['show_map1']:
+    if st.session_state['show_map1'] & st.session_state["division_1"]:
+        st.write("マップ1")
         my_map_1 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
         create_map(my_map_1, df_map, "高校生数", "BuGn", thresholds_1)
         st_folium(my_map_1, use_container_width=True, width=1200, height=720, returned_objects=[])
-    if st.session_state['show_map2']:
+    if st.session_state['show_map2'] & st.session_state["division_2"]:
+        st.write("マップ2")
         my_map_2 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
         create_map(my_map_2, df_map, "平均年齢", "RdPu", thresholds_2)
         st_folium(my_map_2, use_container_width=True, width=1200, height=720, returned_objects=[])
