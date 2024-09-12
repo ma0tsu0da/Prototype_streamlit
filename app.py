@@ -95,9 +95,24 @@ with map_col:
             show=True
         ).add_to(my_map)
         folium.LayerControl().add_to(my_map)
-    if st.button("マップ1生成", key='button_1'):
+
+    # ボタンの状態を session_state で管理
+    if 'show_map1' not in st.session_state:
+        st.session_state['show_map1'] = False
+    if 'show_map2' not in st.session_state:
+        st.session_state['show_map2'] = False
+
+    # ボタン1が押された場合
+    if st.button("マップ1生成", key="button_1"):
+        st.session_state['show_map1'] = not st.session_state['show_map1']
+
+    # ボタン2が押された場合
+    if st.button("マップ2生成", key="button_2"):
+        st.session_state['show_map2'] = not st.session_state['show_map2']
+
+    if st.session_state['show_map1']:
         my_map_1 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
         st_folium(my_map_1, use_container_width=True, height=720, returned_objects=[])
-    if st.button("マップ2生成", key='button_2'):
+    if st.session_state['show_map2']:
         my_map_2 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
         st_folium(my_map_2, use_container_width=True, height=720, returned_objects=[])
