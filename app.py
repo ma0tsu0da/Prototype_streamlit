@@ -160,7 +160,7 @@ with st.container():
         target = target.dropna(subset=['高校生数', '丁名'])
         target = target[['丁名', '高校生数'
                          ]].sort_values('高校生数', ascending=False).reset_index(drop=True)
-        st.write(f"{filter_value}の丁別高校生数")
+        st.header(f"{filter_value}の丁別高校生数")
         st.dataframe(target, use_container_width=True)
 
 with st.container():
@@ -232,7 +232,7 @@ with st.container():
                          ]].sort_values('平均年齢', ascending=True
                                         ).reset_index(drop=True)
 
-        st.write(f"{filter_value}の丁別平均年齢")
+        st.header(f"{filter_value}の丁別平均年齢")
         st.dataframe(target, use_container_width=True)
 
 # with st.container():
