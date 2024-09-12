@@ -193,3 +193,18 @@ with st.container():
             my_map_2 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
             create_map(my_map_2, df_map, "平均年齢", "RdPu", thresholds_2)
             st_folium(my_map_2, use_container_width=True, width=500, returned_objects=[])
+
+
+with st.container():
+    map_col_3, menu_col_3 = st.columns([5, 2])
+    with menu_col_2:
+        filter_value = st.selectbox('フィルタリングする要素の選択',
+                                    ['すべて'] + list(df_map['CITY_NAME'].unique()), key='filter_1')
+    with map_col_3:
+        if filter_value == 'すべて':
+            target = df_map.copy()
+        else:
+            target = df_map[df_map['CITY_NAME'] == filter_value]
+        target = target[['S_NAME', '高校生数'
+                         ]].dropna(subset='高校生数').sort_values('高校生数', ascending=False)
+        st.dataframe(target, use_container_width=True)
