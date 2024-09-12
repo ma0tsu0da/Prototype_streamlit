@@ -45,7 +45,7 @@ with menu_col:
     </style>
     """, unsafe_allow_html=True)
 
-    st.header("マップ 分割設定")
+    st.header("マップ1 分割設定")
     division = st.number_input(
         label='分割数',
         value=9,
@@ -151,9 +151,9 @@ with map_col:
 
     if st.session_state['show_map1']:
         my_map_1 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
-        create_map(my_map_1, df_map, "高校生数", "BuGn", threshold_1)
+        create_map(my_map_1, df_map, "高校生数", "BuGn", thresholds_1)
         st_folium(my_map_1, use_container_width=True, width=1200, height=720, returned_objects=[])
     if st.session_state['show_map2']:
         my_map_2 = folium.Map(location=map_center, tiles='openstreetmap', zoom_start=13)
-        create_map(my_map_2, df_map, "平均年齢", "RdPu", threshold_2)
+        create_map(my_map_2, df_map, "平均年齢", "RdPu", thresholds_2)
         st_folium(my_map_2, use_container_width=True, width=1200, height=720, returned_objects=[])
