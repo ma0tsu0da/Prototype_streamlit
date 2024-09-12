@@ -86,7 +86,7 @@ with menu_col:
             threshold_2 = np.ceil(df_map["平均年齢"].max())
         else:
             threshold_2 = st.number_input(
-                f"閾値_{i}", min_value=0, max_value=100, value=i * 7)
+                f"閾値_{i}", min_value=0, max_value=100, value=15 + i * 7)
         thresholds_2.append(threshold_2)
 
     # Thresholdリストを表示
