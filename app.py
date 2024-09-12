@@ -197,7 +197,7 @@ with st.container():
 
 with st.container():
     map_col_3, menu_col_3 = st.columns([5, 2])
-    with menu_col_2:
+    with menu_col_3:
         filter_value = st.selectbox('フィルタリングする要素の選択',
                                     ['すべて'] + list(df_map['CITY_NAME'].unique()), key='filter_1')
     with map_col_3:
@@ -205,6 +205,29 @@ with st.container():
             target = df_map.copy()
         else:
             target = df_map[df_map['CITY_NAME'] == filter_value]
+        target.rename({'S_NAME': '丁名'}, axis=1, inplace=True)
         target = target[['S_NAME', '高校生数'
-                         ]].dropna(subset='高校生数').sort_values('高校生数', ascending=False)
+                         ]].dropna(subset='高校生数'
+                                   ).sort_values('高校生数', ascending=False
+                                                 ).reset_index(drop=True)
         st.dataframe(target, use_container_width=True)
+        st.write(f"{filter_value}の丁別高校生数")
+
+
+with st.container():
+    map_col_4, menu_col_4 = st.columns([5, 2])
+    with menu_col_4:
+        filter_value = st.selectbox('フィルタリングする要素の選択',
+                                    ['すべて'] + list(df_map['CITY_NAME'].unique()), key='filter_2')
+    with map_col_4:
+        if filter_value == 'すべて':
+            target = df_map.copy()
+        else:
+            target = df_map[df_map['CITY_NAME'] == filter_value]
+        target.rename({'S_NAME': '丁名'}, axis=1, inplace=True)
+        target = target[['S_NAME', '平均年齢'
+                         ]].dropna(subset='平均年齢'
+                                   ).sort_values('平均年齢', ascending=True
+                                                 ).reset_index(drop=True)
+        st.dataframe(target, use_container_width=True)
+        st.write(f"{filter_value}の丁別平均年齢")
