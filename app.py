@@ -206,7 +206,7 @@ with st.container():
         else:
             target = df_map[df_map['CITY_NAME'] == filter_value]
         target.rename({'S_NAME': '丁名'}, axis=1, inplace=True)
-        target = target[['S_NAME', '高校生数'
+        target = target[['丁名', '高校生数'
                          ]].dropna(subset='高校生数'
                                    ).sort_values('高校生数', ascending=False
                                                  ).reset_index(drop=True)
@@ -225,7 +225,7 @@ with st.container():
         else:
             target = df_map[df_map['CITY_NAME'] == filter_value]
         target.rename({'S_NAME': '丁名'}, axis=1, inplace=True)
-        target = target[['S_NAME', '平均年齢'
+        target = target[['丁名', '平均年齢'
                          ]].dropna(subset='平均年齢'
                                    ).sort_values('平均年齢', ascending=True
                                                  ).reset_index(drop=True)
